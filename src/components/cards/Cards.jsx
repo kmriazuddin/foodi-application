@@ -1,13 +1,61 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { IoHeartOutline } from "react-icons/io5";
+import { AuthContext } from '../../contexts/AuthProvider';
+import Swal from 'sweetalert2';
 
 
 const Cards = ({ item }) => {
+    const { user } = useContext(AuthContext);
+    const { _id, name, image, category, price } = item;
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
     // Heart Icon Clicked
     const [isHeartClicked, setIsHeartClicked] = useState(false);
     const handleHeartClick = () => {
         setIsHeartClicked(!isHeartClicked);
+    }
+
+    // Add To Cart
+    const handleAddToCart = (item) => {
+        if (user && user?.email) {
+            const cartItem = { menuItemId: _id, name, quantity: 1, image, price, category, email: user?.email }
+            fetch('http://localhost:8000/carts', {
+                method: "POST",
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(cartItem)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.insertedId) {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Your work has been saved",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                })
+        } else {
+            Swal.fire({
+                title: "Please Login?",
+                text: "Without an account can't able to add products!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Signup Now!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate('/signUp', {state: {from: location}})
+                }
+            });
+        }
     }
     return (
         <div className='px-2'>
@@ -23,7 +71,7 @@ const Cards = ({ item }) => {
                     <p>{item.recipe}</p>
                     <div className="card-actions justify-between items-center mt-2">
                         <h5 className='font-semibold'><span className='text-sm text-red mr-1'>$</span>{item.price}</h5>
-                        <div className="btn bg-greenLight text-white">Fashion</div>
+                        <button className="btn bg-greenLight text-white" onClick={() => handleAddToCart(item)}>Add to Cart</button>
                     </div>
                 </div>
             </div>
