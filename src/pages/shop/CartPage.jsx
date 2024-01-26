@@ -1,13 +1,28 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import TitleAndSubtitle from '../Title/TitleAndSubtitle';
 import useCart from '../../hooks/useCart';
 import { MdDelete } from "react-icons/md";
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../contexts/AuthProvider';
+import { CiCircleMinus } from "react-icons/ci";
+import { CiCirclePlus } from "react-icons/ci";
+import toast from 'react-hot-toast';
 
 const CartPage = () => {
     const [cart, refetch] = useCart();
     const { user } = useContext(AuthContext);
+    const [cartItems, setCartItems] = useState([]);
+
+    // Calculate Price
+    const calculatePrice = (item) => {
+        return item.price * item.quantity
+    };
+
+    // Calculate Total Price
+    const cartTotalPrice = cart.reduce((total, item) => {
+        return total + calculatePrice(item);
+    }, 0);
+    const orderTotalPrice = cartTotalPrice;
 
     // Delete Add Cart Item
     const handleDelete = (item) => {
@@ -37,6 +52,62 @@ const CartPage = () => {
                     })
             }
         });
+    }
+
+    //
+    const handleIncrease = (item) => {
+        fetch(`http://localhost:8000/carts/${item._id}`, {
+            method: "PUT",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({ quantity: item.quantity + 1 })
+        })
+            .then(res => res.json())
+            .then(data => {
+                const updatedCart = cartItems.map((cartItem) => {
+                    if (cartItem.id === item.id) {
+                        return {
+                            ...cartItem,
+                            quantity: cartItem.quantity + 1
+                        }
+                    }
+                    return cartItem;
+                });
+                refetch();
+                setCartItems(updatedCart);
+            });
+        refetch();
+    }
+
+    //
+    const handleDecrease = (item) => {
+        if (item.quantity > 1) {
+            fetch(`http://localhost:8000/carts/${item._id}`, {
+                method: "PUT",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({ quantity: item.quantity -= 1 })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    const updatedCart = cartItems.map((cartItem) => {
+                        if (cartItem.id === item.id) {
+                            return {
+                                ...cartItem,
+                                quantity: cartItem.quantity - 1
+                            }
+                        }
+                        return cartItem;
+                    });
+                    refetch();
+                    setCartItems(updatedCart);
+                });
+            refetch();
+        } else {
+            toast.error("Item Can't Be Zero!")
+        }
     }
     return (
         <div className='section-container'>
@@ -80,8 +151,12 @@ const CartPage = () => {
                                     </td>
                                     <td>{item?.category}</td>
                                     <td className='font-bold'>{item?.name}</td>
-                                    <td>{item?.quantity}</td>
-                                    <td>$ {item?.price}</td>
+                                    <td>
+                                        <button className='btn' onClick={() => handleDecrease(item)}><CiCircleMinus className='text-2xl' /></button>
+                                        <input type="number" value={item?.quantity} className='w-10 mx-2 text-center overflow-hidden appearance-none' />
+                                        <button className='btn' onClick={() => handleIncrease(item)}><CiCirclePlus className='text-2xl' /></button>
+                                    </td>
+                                    <td>$ {calculatePrice(item).toFixed(2)}</td>
                                     <th>
                                         <button className="btn bg-greenLight hover:bg-green-400" onClick={() => handleDelete(item)}><MdDelete className='text-xl md:text-2xl text-rose-500' /></button>
                                     </th>
@@ -102,7 +177,7 @@ const CartPage = () => {
                 <div className='md:w-1/2 space-y-3'>
                     <h3 className='font-medium'>Shopping Details</h3>
                     <p>Total Items: {cart?.length}</p>
-                    <p>Total Price: $0.00</p>
+                    <p>Total Price: ${orderTotalPrice.toFixed(2)}</p>
                     <button className='btn bg-greenLight hover:bg-green-500 text-white hover:text-rose-500'>Checkout</button>
                 </div>
             </div>
