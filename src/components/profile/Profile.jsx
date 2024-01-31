@@ -35,6 +35,7 @@ return (
                     {/* Sidebar content here */}
                     <li><Link to="/updateProfile">Profile</Link></li>
                     <li><a>Order</a></li>
+                    <li><Link to="/dashboard">Dashboard</Link></li>
                     <li><a>Setting</a></li>
                     <li><a onClick={handleLogout}>Log Out</a></li>
                 </ul>

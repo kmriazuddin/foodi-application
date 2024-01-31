@@ -2,13 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { FaRegUserCircle } from "react-icons/fa";
 import Modal from '../modal/Modal';
-import { AuthContext } from '../../contexts/AuthProvider';
 import Profile from '../profile/Profile';
 import useCart from '../../hooks/useCart';
+import useAuth from '../../hooks/useAuth';
 
 
 const Navbar = () => {
-    const { user } = useContext(AuthContext);
+    const { user } = useAuth();
     const [cart, refetch] = useCart();
 
     // Handle Scroll Function
