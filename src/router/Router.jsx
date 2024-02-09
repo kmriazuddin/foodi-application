@@ -10,6 +10,10 @@ import DashboardLayout from "../layout/DashboardLayout";
 import Dashboard from "../pages/dashboard/admin/Dashboard";
 import Users from "../pages/dashboard/Users";
 import LogIn from "../components/authentication/LogIn";
+import AddMenu from "../pages/dashboard/admin/AddMenu";
+import ManageBooking from "../pages/dashboard/admin/manageBooking";
+import ManageItem from "../pages/dashboard/admin/ManageItem";
+import UpdateMenu from "../pages/dashboard/admin/UpdateMenu";
 
 const router = createBrowserRouter([
     {
@@ -49,6 +53,23 @@ const router = createBrowserRouter([
             {
                 path: "",
                 element: <Dashboard />
+            },
+            {
+                path: 'addMenu',
+                element: <AddMenu />
+            },
+            {
+                path: 'manageBooking',
+                element: <ManageBooking />
+            },
+            {
+                path: 'manageItem',
+                element: <ManageItem />
+            },
+            {
+                path: 'updateMenu/:id',
+                element: <UpdateMenu />,
+                loader: ({ params }) => fetch(`http://localhost:8000/menu/${params?.id}`)
             },
             {
                 path: "users",
