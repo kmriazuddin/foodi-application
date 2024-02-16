@@ -7,6 +7,7 @@ import { AuthContext } from '../../contexts/AuthProvider';
 import { CiCircleMinus } from "react-icons/ci";
 import { CiCirclePlus } from "react-icons/ci";
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 const CartPage = () => {
     const [cart, refetch] = useCart();
@@ -178,7 +179,9 @@ const CartPage = () => {
                     <h3 className='font-medium'>Shopping Details</h3>
                     <p>Total Items: {cart?.length}</p>
                     <p>Total Price: ${orderTotalPrice.toFixed(2)}</p>
-                    <button className='btn bg-greenLight hover:bg-green-500 text-white hover:text-rose-500'>Checkout</button>
+                    <Link to='/processCheckout'>
+                        <button className='btn bg-greenLight hover:bg-green-500 text-white hover:text-rose-500 mt-2'>Checkout</button>
+                    </Link>
                 </div>
             </div>
         </div>
