@@ -11,11 +11,11 @@ import Dashboard from "../pages/dashboard/admin/Dashboard";
 import Users from "../pages/dashboard/Users";
 import LogIn from "../components/authentication/LogIn";
 import AddMenu from "../pages/dashboard/admin/AddMenu";
-import ManageBooking from "../pages/dashboard/admin/manageBooking";
 import ManageItem from "../pages/dashboard/admin/ManageItem";
 import UpdateMenu from "../pages/dashboard/admin/UpdateMenu";
 import Payment from "../pages/payment/Payment";
 import Order from "../components/order/Order";
+import ManageBooking from "../pages/dashboard/admin/manageBooking";
 
 const router = createBrowserRouter([
     {
