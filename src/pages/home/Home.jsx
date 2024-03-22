@@ -1,6 +1,5 @@
 import React from 'react';
-import LoadingPage from '../error/LoadingPage';
-import Banner from '../../components/banner/banner';
+import Banner from '../../components/banner/Banner';
 import Categories from './Categories';
 import SpecialDishes from './SpecialDishes';
 import Testimonials from './Testimonials';
