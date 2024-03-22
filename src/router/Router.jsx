@@ -15,7 +15,7 @@ import ManageItem from "../pages/dashboard/admin/ManageItem";
 import UpdateMenu from "../pages/dashboard/admin/UpdateMenu";
 import Payment from "../pages/payment/Payment";
 import Order from "../components/order/Order";
-import ManageBooking from "../pages/dashboard/admin/manageBooking";
+import ManageBooking from "../pages/dashboard/admin/ManageBooking";
 
 const router = createBrowserRouter([
     {
