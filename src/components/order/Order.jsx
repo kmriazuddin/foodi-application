@@ -11,7 +11,7 @@ const Order = () => {
     const { refetch, data: orders = [] } = useQuery({
         queryKey: ['orders', user?.email],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:8000/payments?email=${user?.email}`, {
+            const res = await fetch(`https://foodi-application-server.onrender.com/payments?email=${user?.email}`, {
                 headers: {
                     authorization: `Bearer ${token}`
                 }

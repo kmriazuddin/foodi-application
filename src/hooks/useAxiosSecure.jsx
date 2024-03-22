@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useAuth from './useAuth';
 
 const axiosSecure = axios.create({
-    baseURL: 'http://localhost:8000',
+    baseURL: 'https://foodi-application-server.onrender.com',
 })
 const useAxiosSecure = () => {
     const navigate = useNavigate();
