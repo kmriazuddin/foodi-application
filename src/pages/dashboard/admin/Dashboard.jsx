@@ -6,7 +6,6 @@ import { CiDollar } from "react-icons/ci";
 import { FaUsers } from 'react-icons/fa';
 import { MdRestaurantMenu } from 'react-icons/md';
 import { IoBagAddSharp } from 'react-icons/io5';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Legend, Cell } from 'recharts';
 
 const Dashboard = () => {
     const { user } = useAuth();
